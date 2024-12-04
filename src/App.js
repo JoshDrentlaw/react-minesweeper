@@ -1,25 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import Grid from "./Grid";
+import {useState} from "react";
+import { generateMines } from "./GameService.ts";
+import GridService from "./GridService.ts";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [gridWidth, setGridWidth] = useState(8)
+    const [gridHeight, setGridHeight] = useState(8)
+    const [mineCount, setMineCount] = useState(10)
+    const [mines, setMines] = useState(generateMines(gridWidth, gridHeight, mineCount))
+
+    return (
+        <main className="App">
+            <Grid service={new GridService(gridWidth, gridHeight, mines)} />
+        </main>
+    );
 }
 
 export default App;
