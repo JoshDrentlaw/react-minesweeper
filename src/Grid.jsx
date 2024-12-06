@@ -2,14 +2,14 @@ import React from 'react'
 import './Grid.css'
 import Cell from "./Cell"
 
-const Grid = ({ service }) => {
+const Grid = ({ service, setGrid }) => {
     return (
         <section id="grid-container">
             <div id="grid">
                 {service.grid.map((row, i) => {
                     return row.map((cell, j) => {
                         return (
-                            <Cell key={cell.id} cell={cell} onClick={() => handleClick(service, cell)} />
+                            <Cell key={cell.id} cell={cell} onClick={() => handleClick(cell, service, setGrid)} />
                         )
                     })
                 })}
@@ -18,10 +18,11 @@ const Grid = ({ service }) => {
     );
 };
 
-function handleClick(service, cell)
+function handleClick(cell, service, setGrid)
 {
-    console.log(service, cell)
     cell.isRevealed = true
+    service.setCell(cell)
+    setGrid(service.grid.map(row => [...row]))
 }
 
 export default Grid;

@@ -1,6 +1,6 @@
 import './App.css';
 import Grid from "./Grid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { generateMines } from "./GameService.ts";
 import GridService from "./GridService.ts";
 
@@ -9,10 +9,12 @@ function App() {
     const [gridHeight, setGridHeight] = useState(8)
     const [mineCount, setMineCount] = useState(10)
     const [mines, setMines] = useState(generateMines(gridWidth, gridHeight, mineCount))
+    const [gridService, setGridService] = useState(new GridService(gridWidth, gridHeight, mines))
+    const [grid, setGrid] = useState(gridService.grid)
 
     return (
         <main className="App">
-            <Grid service={new GridService(gridWidth, gridHeight, mines)} />
+            <Grid service={gridService} setGrid={setGrid} />
         </main>
     );
 }

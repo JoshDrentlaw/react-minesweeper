@@ -2,8 +2,13 @@ import React from 'react'
 
 function Cell({ cell, onClick }) {
     const content = cell.isRevealed ? (cell.mineCell ? '💣' : cell.adjacentMines || '') : ''
+    const classes = [
+        'cell',
+        cell.isRevealed ? 'revealed' : '',
+        cell.isMine ? 'mine' : '',
+    ]
     return (
-        <div className={`cell${cell.isRevealed && cell.isMine ? ' mine' : ''}`} onClick={onClick}><i>{content}</i></div>
+        <div className={classes.join(' ')} onClick={onClick}><i>{content}</i></div>
     )
 }
 

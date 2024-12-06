@@ -23,7 +23,6 @@ class GridService {
                     return this.createCell(isMine, rowIndex, colIndex)
                 });
             })
-
         this.grid = this.grid.map((row: Cell[], rowIndex: number): Cell[] => {
             return row.map((cell: Cell, colIndex: number): Cell => {
                 if (cell.isMine) {
@@ -50,16 +49,17 @@ class GridService {
         }
     }
 
-    getItem(row: number, col: number): object | null {
-        if (this.isValidPosition(row, col)) {
-            return this.grid[row][col];
+    getCell(x: number, y: number): object | null {
+        if (this.isValidPosition(x, y)) {
+            return this.grid[x][y];
         }
         return null;
     }
 
-    setItem(row: number, col: number, item: Cell): void {
-        if (this.isValidPosition(row, col)) {
-            this.grid[row][col] = item;
+    setCell(cell: Cell): void {
+        const { x, y } = cell
+        if (this.isValidPosition(x, y)) {
+            this.grid[x][y] = cell
         }
     }
 
