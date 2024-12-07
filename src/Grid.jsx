@@ -9,7 +9,12 @@ const Grid = ({ service, setGrid }) => {
                 {service.grid.map((row, i) => {
                     return row.map((cell, j) => {
                         return (
-                            <Cell key={cell.id} cell={cell} onClick={() => handleClick(cell, service, setGrid)} />
+                            <Cell
+                                key={cell.id}
+                                cell={cell}
+                                onClick={() => handleClick(cell, service, setGrid)}
+                                onContextMenu={(e) => handleRightClick(e, cell, service, setGrid)}
+                            />
                         )
                     })
                 })}
@@ -20,9 +25,23 @@ const Grid = ({ service, setGrid }) => {
 
 function handleClick(cell, service, setGrid)
 {
-    cell.isRevealed = true
-    service.setCell(cell)
-    setGrid(service.grid.map(row => [...row]))
+    if (!cell.isRevealed) {
+        if (cell.isMine) {
+            service.revealAllCells()
+        } else {
+            service.revealCell(cell)
+        }
+        setGrid(service.grid.map(row => [...row]))
+    }
+}
+
+function handleRightClick(e, cell, service, setGrid)
+{
+    e.preventDefault()
+    if (!cell.isRevealed) {
+        service.toggleFlag(cell)
+        setGrid(service.grid.map(row => [...row]))
+    }
 }
 
 export default Grid;

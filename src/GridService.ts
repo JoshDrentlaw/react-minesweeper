@@ -90,6 +90,32 @@ class GridService {
     isValidPosition(row: number, col: number): boolean {
         return row >= 0 && row < this.grid.length && col >= 0 && col < this.grid[0].length;
     }
+
+    revealCell(cell: Cell): void {
+        if (cell.isRevealed || cell.isFlagged) {
+            return;
+        }
+
+        cell.isRevealed = true;
+        if (cell.adjacentMines === 0) {
+            const neighbors = this.getNeighbors(cell.x, cell.y);
+            for (const neighbor of neighbors) {
+                this.revealCell(neighbor);
+            }
+        }
+    }
+
+    revealAllCells(): void {
+        this.grid.forEach((row: Cell[]): void => {
+            row.forEach((cell: Cell): void => {
+                cell.isRevealed = true;
+            });
+        });
+    }
+
+    toggleFlag(cell: Cell): void {
+        cell.isFlagged = !cell.isFlagged;
+    }
 }
 
 export default GridService;
